@@ -149,15 +149,26 @@ body {
   position: relative;
   border-radius: 0;
   overflow: hidden;
-  border: 7px solid #dfe5eb;
+  border: 7px solid #202f5c;
   border-radius: 24px;
-  background: #eef2f5;
+  background: #06122f;
+  box-shadow:
+    inset 0 0 0 1px rgba(137, 177, 255, 0.32),
+    0 14px 32px rgba(4, 14, 43, 0.24);
 }
 .board {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  background-color: #eef2f5;
+  background-color: #06122f;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.95) 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 72% 24%, rgba(152, 205, 255, 0.9) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 38% 72%, rgba(255, 255, 255, 0.8) 0 0.8px, transparent 1.5px),
+    radial-gradient(circle at 88% 82%, rgba(186, 215, 255, 0.85) 0 1.1px, transparent 1.8px),
+    radial-gradient(ellipse at 50% 45%, #10295e 0%, #081a42 48%, #030b22 100%);
+  background-size: 91px 91px, 137px 137px, 73px 73px, 181px 181px, 100% 100%;
+  background-position: 0 0, 24px 17px, 11px 36px, 63px 8px, 0 0;
   display: grid;
   gap: 0;
   padding: 18px;
