@@ -149,18 +149,18 @@ body {
   position: relative;
   border-radius: 0;
   overflow: hidden;
-  border: 7px solid #CCFFCE;
-  border-radius: 15%;
-  background: #fff;
+  border: 7px solid #dfe5eb;
+  border-radius: 24px;
+  background: #eef2f5;
 }
 .board {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  background-color: #fff;
+  background-color: #eef2f5;
   display: grid;
-  gap: 4px;
-  padding: 16px;
+  gap: 0;
+  padding: 18px;
 }
 .board-background {
   position: absolute;
@@ -174,18 +174,18 @@ body {
 .cell {
   position: relative;
   z-index: 1;
-  border-radius: 10%;
+  border-radius: 0;
   background: transparent;
   border: 0;
 }
 .cell.path {
-  background: rgba(128, 128, 184, 0.6);
+  background: #aeb8c2;
 }
 .cell.start {
-  background: rgba(236, 234, 234, 0.6);
+  background: #65d98b;
 }
 .cell.finish {
-  background: rgba(151, 60, 57, 0.6);
+  background: #ff6b7d;
 }
 .cell.empty { opacity: 0; }
 .hero {
