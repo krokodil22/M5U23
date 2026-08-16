@@ -14,10 +14,8 @@ const levelMaps = [
   ['00000000000','00000000000','01110000000','01010111000','01010101000','01010101000','01010101000','01010101000','01010101000','01011101000','02000001130','00000000000'],
   ['00000000000','00000000000','02000003000','01000101000','01000101000','01000101000','11111111110','01000001000','01000001000','01000000000','01000000000','00000000000'],
   ['00000000000','00000000000','00200000000','00101010000','00101010100','00101010100','01111111110','00101010000','00101130000','00100000000','00000000000','00000000000'],
-  ['00000000010','00000000000','00200111110','00100030010','01111000010','00100010010','00100010010','01111111010','00100010010','00000111110','00000010010','00000000000'],
-  ['00000000000','00000000000','00200000010','00100031110','01111000010','00100010110','00101010010','00111111010','00101010010','00000111110','00000010010','00000000000'],
 ];
-const commandLimits = [3, 6, 6, 6, 10, 7, 10, 18, 12, 12, 22, null];
+const commandLimits = [3, 7, 6, 6, 10, 7, 10, 18, 12, 12];
 
 const levels = levelMaps.map((map, index) => {
   let start;
@@ -45,21 +43,22 @@ const retryLevelButton = document.getElementById('retry-level-button');
 const levelHint = document.getElementById('level-hint');
 const levelRule = document.getElementById('level-rule');
 
-const toolbox = {
-  kind: 'flyoutToolbox',
-  contents: [
+function getToolbox(levelIndex) {
+  const contents = [
     { kind: 'block', type: 'maze_move_forward' },
     { kind: 'block', type: 'maze_turn_left' },
     { kind: 'block', type: 'maze_turn_right' },
     { kind: 'block', type: 'maze_repeat_until' },
-    { kind: 'block', type: 'maze_if' },
     { kind: 'sep', gap: 28 },
     { kind: 'label', text: 'Сенсоры' },
     { kind: 'block', type: 'maze_sensor_finish' },
     { kind: 'block', type: 'maze_sensor_left' },
     { kind: 'block', type: 'maze_sensor_right' },
-  ],
-};
+  ];
+
+  if (levelIndex >= 2) contents.splice(4, 0, { kind: 'block', type: 'maze_if' });
+  return { kind: 'flyoutToolbox', contents };
+}
 
 let workspace;
 let currentLevelIndex = 0;
@@ -84,7 +83,7 @@ defineBlocks([
 
 function initializeBlockly() {
   workspace = Blockly.inject(workspaceContainer, {
-    toolbox, toolboxPosition: 'start', trashcan: true, renderer: 'zelos',
+    toolbox: getToolbox(0), toolboxPosition: 'start', trashcan: true, renderer: 'zelos',
     grid: { spacing: 24, length: 3, colour: 'rgba(124,140,255,.18)', snap: true },
     zoom: { controls: true, wheel: true, startScale: .9, maxScale: 1.4, minScale: .6, scaleSpeed: 1.1 },
     move: { scrollbars: true, drag: true, wheel: true },
@@ -149,7 +148,7 @@ function resetLevelState() {
 function setLevel(index) {
   if (index < 0 || index > highestUnlockedLevel || index >= levels.length) return;
   currentLevelIndex = index;
-  hideModal(); resetWorkspace(); resetLevelState();
+  hideModal(); workspace.updateToolbox(getToolbox(index)); resetWorkspace(); resetLevelState();
 }
 function saveProgress() { try { localStorage.setItem(progressStorageKey, highestUnlockedLevel); } catch (_) { /* storage may be disabled */ } }
 function loadProgress() { try { highestUnlockedLevel = Math.min(Math.max(parseInt(localStorage.getItem(progressStorageKey), 10) || 0, 0), levels.length - 1); } catch (_) { highestUnlockedLevel = 0; } }
